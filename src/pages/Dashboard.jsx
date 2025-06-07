@@ -129,11 +129,11 @@ const Dashboard = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <Box sx={{ p: isMobile ? 1 : 3 }}>
+    <Box>
       <Typography 
         variant={isMobile ? "h5" : "h4"} 
         sx={{ 
-          mb: isMobile ? 2 : 4,
+          mb: isMobile ? 2 : 3,
           fontWeight: 'bold'
         }}
       >
@@ -141,7 +141,7 @@ const Dashboard = () => {
       </Typography>
 
       {/* Statistics Cards */}
-      <Grid container spacing={isMobile ? 1 : 3} sx={{ mb: isMobile ? 2 : 4 }}>
+      <Grid container spacing={isMobile ? 1 : 2} sx={{ mb: isMobile ? 2 : 3 }}>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Revenue"
@@ -177,7 +177,7 @@ const Dashboard = () => {
       </Grid>
 
       {/* Charts */}
-      <Grid container spacing={isMobile ? 1 : 3}>
+      <Grid container spacing={isMobile ? 1 : 2}>
         <Grid item xs={12} md={8}>
           <Paper 
             sx={{ 

@@ -13,6 +13,7 @@ import {
   useTheme,
   useMediaQuery,
   Tooltip,
+  Divider,
 } from '@mui/material';
 import {
   Notifications as NotificationsIcon,
@@ -25,6 +26,7 @@ const Topbar = ({ onMenuClick }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -47,12 +49,16 @@ const Topbar = ({ onMenuClick }) => {
         zIndex: theme.zIndex.drawer + 1,
         backgroundColor: 'background.paper',
         color: 'text.primary',
-        boxShadow: '0px 2px 4px rgba(0,0,0,0.1)',
+        boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+        borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >
       <Toolbar sx={{ 
         minHeight: { xs: 56, sm: 64 },
-        px: { xs: 1, sm: 2 }
+        px: { xs: 2, sm: 3 },
+        maxWidth: isDesktop ? '1600px' : '100%',
+        mx: 'auto',
+        width: '100%',
       }}>
         {isMobile && (
           <IconButton
@@ -60,7 +66,7 @@ const Topbar = ({ onMenuClick }) => {
             aria-label="open drawer"
             edge="start"
             onClick={onMenuClick}
-            sx={{ mr: 1 }}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
@@ -72,7 +78,9 @@ const Topbar = ({ onMenuClick }) => {
           sx={{ 
             flexGrow: 1,
             display: { xs: 'none', sm: 'block' },
-            fontSize: { xs: '1rem', sm: '1.25rem' }
+            fontSize: { xs: '1rem', sm: '1.25rem' },
+            fontWeight: 600,
+            color: 'text.primary',
           }}
         >
           Welcome, Admin
@@ -81,10 +89,19 @@ const Topbar = ({ onMenuClick }) => {
         <Box sx={{ 
           display: 'flex', 
           alignItems: 'center', 
-          gap: { xs: 0.5, sm: 1 }
+          gap: { xs: 1, sm: 1.5 },
+          ml: 'auto',
         }}>
           <Tooltip title="Notifications">
-            <IconButton color="inherit" size={isMobile ? "small" : "medium"}>
+            <IconButton 
+              color="inherit" 
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              }}
+            >
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon fontSize={isMobile ? "small" : "medium"} />
               </Badge>
@@ -92,7 +109,15 @@ const Topbar = ({ onMenuClick }) => {
           </Tooltip>
           
           <Tooltip title="Settings">
-            <IconButton color="inherit" size={isMobile ? "small" : "medium"}>
+            <IconButton 
+              color="inherit" 
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              }}
+            >
               <SettingsIcon fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
           </Tooltip>
@@ -102,12 +127,21 @@ const Topbar = ({ onMenuClick }) => {
               onClick={handleMenu}
               color="inherit"
               size={isMobile ? "small" : "medium"}
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              }}
             >
               <Avatar 
                 sx={{ 
                   width: { xs: 28, sm: 32 }, 
                   height: { xs: 28, sm: 32 },
-                  bgcolor: 'primary.main'
+                  bgcolor: 'primary.main',
+                  transition: 'all 0.2s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                  },
                 }}
               >
                 <AccountCircle />
@@ -123,14 +157,29 @@ const Topbar = ({ onMenuClick }) => {
               sx: {
                 mt: 1.5,
                 minWidth: 180,
+                boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
+                borderRadius: 1,
               }
             }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Settings</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleProfileClick} sx={{ py: 1.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <AccountCircle fontSize="small" />
+                <Typography variant="body2">Profile</Typography>
+              </Box>
+            </MenuItem>
+            <MenuItem onClick={handleClose} sx={{ py: 1.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <SettingsIcon fontSize="small" />
+                <Typography variant="body2">Settings</Typography>
+              </Box>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleClose} sx={{ py: 1.5, color: 'error.main' }}>
+              <Typography variant="body2">Logout</Typography>
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>

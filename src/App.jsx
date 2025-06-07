@@ -27,6 +27,7 @@ const theme = createTheme({
     },
     background: {
       default: '#f5f5f5',
+      paper: '#ffffff',
     },
   },
   breakpoints: {
@@ -36,6 +37,23 @@ const theme = createTheme({
       md: 960,
       lg: 1280,
       xl: 1920,
+    },
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#ffffff',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#ffffff',
+          color: '#000000',
+        },
+      },
     },
   },
 });
@@ -53,7 +71,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
           <Sidebar 
             open={sidebarOpen} 
             onClose={() => setSidebarOpen(false)}
@@ -63,20 +81,19 @@ function App() {
             component="main" 
             sx={{ 
               flexGrow: 1,
-              width: { sm: `calc(100% - ${sidebarOpen ? 240 : 0}px)` },
-              ml: { sm: sidebarOpen ? '240px' : 0 },
+              width: '100%',
               transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
               }),
+              minHeight: '100vh',
+              bgcolor: 'background.default',
             }}
           >
             <Topbar onMenuClick={handleSidebarToggle} />
             <Box sx={{ 
-              p: { xs: 1, sm: 2, md: 3 },
               mt: { xs: 7, sm: 8 },
               minHeight: 'calc(100vh - 64px)',
-              backgroundColor: 'background.default'
             }}>
               <Routes>
                 <Route path="/" element={<Dashboard />} />

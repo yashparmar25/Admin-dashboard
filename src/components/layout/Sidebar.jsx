@@ -36,6 +36,7 @@ const Sidebar = ({ open, onClose, variant }) => {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const drawerWidth = 240;
 
@@ -52,26 +53,29 @@ const Sidebar = ({ open, onClose, variant }) => {
       display: 'flex',
       flexDirection: 'column',
       bgcolor: 'background.paper',
+      boxShadow: isDesktop ? '2px 0 8px rgba(0,0,0,0.05)' : 'none',
     }}>
       <Box sx={{ 
-        p: 2, 
+        p: { xs: 2, sm: 2.5 }, 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        borderBottom: `1px solid ${theme.palette.divider}`
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        bgcolor: 'background.paper',
       }}>
         <Typography 
           variant="h6" 
           sx={{ 
             fontWeight: 'bold',
             color: 'primary.main',
-            fontSize: { xs: '1.1rem', sm: '1.25rem' }
+            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+            letterSpacing: '0.5px',
           }}
         >
           Admin Dashboard
         </Typography>
         {isMobile && (
-          <IconButton onClick={onClose}>
+          <IconButton onClick={onClose} size="small">
             <ChevronLeftIcon />
           </IconButton>
         )}
@@ -79,10 +83,12 @@ const Sidebar = ({ open, onClose, variant }) => {
 
       <List sx={{ 
         flexGrow: 1,
-        px: { xs: 1, sm: 2 },
+        px: { xs: 1, sm: 1.5 },
+        py: 2,
         '& .MuiListItemButton-root': {
           borderRadius: 1,
           mb: 0.5,
+          mx: 0.5,
         }
       }}>
         {menuItems.map((item) => (
@@ -104,12 +110,14 @@ const Sidebar = ({ open, onClose, variant }) => {
                 '&:hover': {
                   bgcolor: 'action.hover',
                 },
+                transition: 'all 0.2s ease-in-out',
               }}
             >
               <ListItemIcon 
                 sx={{ 
                   minWidth: { xs: 36, sm: 40 },
-                  color: location.pathname === item.path ? 'white' : 'inherit'
+                  color: location.pathname === item.path ? 'white' : 'inherit',
+                  transition: 'color 0.2s ease-in-out',
                 }}
               >
                 {item.icon}
@@ -117,7 +125,8 @@ const Sidebar = ({ open, onClose, variant }) => {
               <ListItemText 
                 primary={item.text} 
                 primaryTypographyProps={{
-                  fontSize: { xs: '0.875rem', sm: '1rem' }
+                  fontSize: { xs: '0.875rem', sm: '0.9375rem' },
+                  fontWeight: location.pathname === item.path ? 600 : 400,
                 }}
               />
             </ListItemButton>
@@ -128,12 +137,16 @@ const Sidebar = ({ open, onClose, variant }) => {
       <Box sx={{ 
         p: 2, 
         borderTop: `1px solid ${theme.palette.divider}`,
-        textAlign: 'center'
+        textAlign: 'center',
+        bgcolor: 'background.paper',
       }}>
         <Typography 
           variant="body2" 
           color="text.secondary"
-          sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+          sx={{ 
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            opacity: 0.8,
+          }}
         >
           © 2024 Admin Dashboard
         </Typography>
@@ -153,6 +166,7 @@ const Sidebar = ({ open, onClose, variant }) => {
           width: drawerWidth,
           boxSizing: 'border-box',
           borderRight: `1px solid ${theme.palette.divider}`,
+          bgcolor: 'background.paper',
         },
       }}
     >
